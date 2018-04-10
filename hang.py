@@ -65,7 +65,7 @@ def hangman(secret_word):
     print 'I am thinking of a word that is', secret_word_length, ' letters long.'
     print '-------------'
 
-    while  is_word_guessed(secret_word, letters_guessed) == False and guesses_left > 0:
+    while is_word_guessed(secret_word, letters_guessed) == False and guesses_left > 0:
 
         print 'You have ', guesses_left, 'guesses left.'
         available_letters = clean_available_letters(letters_guessed)
@@ -93,6 +93,7 @@ def hangman(secret_word):
     else:
         if is_word_guessed(secret_word, letters_guessed) == True:
             print 'Congratulations, you won!'
+
         else:
             print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
 
