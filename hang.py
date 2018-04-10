@@ -2,7 +2,6 @@ import random
 import string
 
 WORDLIST_FILENAME = "palavras.txt"
-GUESSED_WORD = ""
 
 def load_words():
     """
@@ -47,6 +46,15 @@ def clean_available_letters(letters_guessed):
             available_letters = remove_letter(letter, available_letters)
     return available_letters
 
+def build_guessed_word(secret_word, letters_guessed):
+    guessed_word = ""
+    for letter in secret_word:
+        if letter in letters_guessed:
+            guessed_word += letter
+        else:
+            guessed_word += " _ "
+    return guessed_word
+
 def hangman(secret_word):
 
     guesses_left = 8
@@ -58,45 +66,28 @@ def hangman(secret_word):
     print '-------------'
 
     while  is_word_guessed(secret_word, letters_guessed) == False and guesses_left > 0:
+
         print 'You have ', guesses_left, 'guesses left.'
-
         available_letters = clean_available_letters(letters_guessed)
-
         print 'Available letters', available_letters
+
         letter = raw_input('Please guess a letter: ')
+
         if letter in letters_guessed:
+            guessed_word = build_guessed_word(secret_word, letters_guessed)
+            print 'Oops! You have already guessed that letter: ', guessed_word
 
-            guessed = GUESSED_WORD
-            for letter in secret_word:
-                if letter in letters_guessed:
-                    guessed += letter
-                else:
-                    guessed += '_ '
-
-            print 'Oops! You have already guessed that letter: ', guessed
         elif letter in secret_word:
             letters_guessed.append(letter)
+            guessed_word = build_guessed_word(secret_word, letters_guessed)
+            print 'Good Guess: ', guessed_word
 
-            guessed = GUESSED_WORD
-            for letter in secret_word:
-                if letter in letters_guessed:
-                    guessed += letter
-                else:
-                    guessed += '_ '
-
-            print 'Good Guess: ', guessed
         else:
-            guesses_left -=1
+            guesses_left -= 1
             letters_guessed.append(letter)
+            guessed_word = build_guessed_word(secret_word, letters_guessed)
+            print 'Oops! That letter is not in my word: ',  guessed_word
 
-            guessed = GUESSED_WORD
-            for letter in secret_word:
-                if letter in letters_guessed:
-                    guessed += letter
-                else:
-                    guessed += '_ '
-
-            print 'Oops! That letter is not in my word: ',  guessed
         print '------------'
 
     else:
