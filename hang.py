@@ -15,18 +15,12 @@ def load_words():
 
     word_count = len(word_list)
     print "  ", word_count, "words loaded."
-    return random.choice(word_list)
+    random_word = random.choice(word_list)
+    random_word_lowercase = random_word.lower()
+    return random_word_lowercase
 
 
 def is_word_guessed(secret_word, letters_guessed):
-    secret_letters = []
-
-#    for letter in secretWord:
-#        if letter in secretLetters:
-#            secretLetters.append(letter)
-#        else:
-#            pass
-
     for letter in secret_word:
         if letter in letters_guessed:
             pass
@@ -106,5 +100,5 @@ def hangman(secret_word):
         else:
             print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
 
-secret_word = load_words().lower()
+secret_word = load_words()
 hangman(secret_word)
