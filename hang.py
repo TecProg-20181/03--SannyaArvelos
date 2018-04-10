@@ -3,23 +3,31 @@ import string
 
 WORDLIST_FILENAME = "palavras.txt"
 
-def load_words():
+def load_secret_words():
+    in_file = open(WORDLIST_FILENAME, 'r', 0)
+    line = in_file.readline()
+    word_list = string.split(line)
+    return word_list
+
+def sort_secret_word(word_list):
+    random_word = random.choice(word_list)
+    random_word_lowercase = random_word.lower()
+    return random_word_lowercase
+
+def generate_secret_word():
     """
     Depending on the size of the word list, this function may
     take a while to finish.
     """
     print "Loading word list from file..."
-    in_file = open(WORDLIST_FILENAME, 'r', 0)
-    line = in_file.readline()
-    word_list = string.split(line)
 
+    word_list = load_secret_words()
     word_count = len(word_list)
+
     print "  ", word_count, "words loaded."
-    random_word = random.choice(word_list)
-    random_word_lowercase = random_word.lower()
 
-    return random_word_lowercase
-
+    secret_word = sort_secret_word(word_list)
+    return secret_word
 
 def is_word_guessed(secret_word, letters_guessed):
     for letter in secret_word:
@@ -97,5 +105,8 @@ def hangman(secret_word):
         else:
             print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
 
-secret_word = load_words()
-hangman(secret_word)
+def startup():
+    secret_word = generate_secret_word()
+    hangman(secret_word)
+
+startup()
