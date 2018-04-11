@@ -54,6 +54,15 @@ def clean_available_letters(letters_guessed):
             available_letters = remove_letter(letter, available_letters)
     return available_letters
 
+def unique_letters_count(secret_word):
+    unique_letters_list = []
+    for letter in secret_word:
+        if not letter in unique_letters_list:
+            unique_letters_list.append(letter)
+
+    unique_letters_count = len(unique_letters_list)
+    return unique_letters_count
+
 def build_guessed_word(secret_word, letters_guessed):
     guessed_word = ""
     for letter in secret_word:
@@ -68,9 +77,11 @@ def hangman(secret_word):
     guesses_left = 8
     letters_guessed = []
     secret_word_length = len(secret_word)
+    unique_letters = unique_letters_count(secret_word)
 
     print 'Welcome to the game, Hangam!'
     print 'I am thinking of a word that is', secret_word_length, ' letters long.'
+    print 'The secret word has ', unique_letters, ' unique letters.'
     print '-------------'
 
     while is_word_guessed(secret_word, letters_guessed) == False and guesses_left > 0:
