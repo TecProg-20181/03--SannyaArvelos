@@ -72,27 +72,38 @@ def build_guessed_word(secret_word, letters_guessed):
             guessed_word += " _ "
     return guessed_word
 
-def hangman(secret_word):
+def can_change_word(unique_letters, guesses_left):
+    return unique_letters > guesses_left
 
+def print_hangman_header(secret_word_length, unique_letters_count):
+    print 'I am thinking of a word that is', secret_word_length, ' letters long.'
+    print 'The secret word has ', unique_letters_count, ' unique letters.'
+    print '-------------'
+
+def hangman(secret_word):
     guesses_left = 8
     letters_guessed = []
     secret_word_length = len(secret_word)
     unique_letters = unique_letters_count(secret_word)
 
-    print 'Welcome to the game, Hangam!'
-    print 'I am thinking of a word that is', secret_word_length, ' letters long.'
-    print 'The secret word has ', unique_letters, ' unique letters.'
-    print '-------------'
+    print_hangman_header(secret_word_length, unique_letters)
 
     while is_word_guessed(secret_word, letters_guessed) == False and guesses_left > 0:
+        available_letters = clean_available_letters(letters_guessed)
+        change_word = can_change_word(unique_letters, guesses_left)
 
         print 'You have ', guesses_left, 'guesses left.'
-        available_letters = clean_available_letters(letters_guessed)
         print 'Available letters', available_letters
+
+        if change_word:
+            print 'You are running out of guesses! Insert 0 to change the word.'
 
         letter = raw_input('Please guess a letter: ')
 
-        if letter in letters_guessed:
+        if letter == '0' and change_word:
+            start_hangman()
+
+        elif letter in letters_guessed:
             guessed_word = build_guessed_word(secret_word, letters_guessed)
             print 'Oops! You have already guessed that letter: ', guessed_word
 
@@ -115,9 +126,14 @@ def hangman(secret_word):
 
         else:
             print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
+        quit()
 
-def startup():
+def start_hangman():
     secret_word = generate_secret_word()
     hangman(secret_word)
 
-startup()
+def main():
+    print 'Welcome to the game, Hangam!'
+    start_hangman()
+
+main()
