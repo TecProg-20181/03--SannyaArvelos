@@ -80,6 +80,33 @@ def print_hangman_header(secret_word_length, unique_letters_count):
     print 'The secret word has ', unique_letters_count, ' unique letters.'
     print '-------------'
 
+
+def read_letter_input(change_word):
+    if change_word:
+        print 'You are running out of guesses! Insert 0 to change the word.'
+    letter = raw_input('Please guess a letter: ')
+    return letter
+
+def already_guessed_letter(secret_word, letters_guessed):
+    guessed_word = build_guessed_word(secret_word, letters_guessed)
+    print 'Oops! You have already guessed that letter: ', guessed_word
+
+def guessed_letter(secret_word, letters_guessed):
+    guessed_word = build_guessed_word(secret_word, letters_guessed)
+    print 'Good Guess: ', guessed_word
+
+def wrong_guessed_letter(secret_word, letters_guessed):
+    guessed_word = build_guessed_word(secret_word, letters_guessed)
+    print 'Oops! That letter is not in my word: ',  guessed_word
+
+def ended_hangman(secret_word, letters_guessed):
+    if is_word_guessed(secret_word, letters_guessed) == True:
+        print 'Congratulations, you won!'
+
+    else:
+        print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
+    quit()
+
 def hangman(secret_word):
     guesses_left = 8
     letters_guessed = []
@@ -95,38 +122,27 @@ def hangman(secret_word):
         print 'You have ', guesses_left, 'guesses left.'
         print 'Available letters', available_letters
 
-        if change_word:
-            print 'You are running out of guesses! Insert 0 to change the word.'
-
-        letter = raw_input('Please guess a letter: ')
+        letter = read_letter_input(change_word)
 
         if letter == '0' and change_word:
             start_hangman()
 
         elif letter in letters_guessed:
-            guessed_word = build_guessed_word(secret_word, letters_guessed)
-            print 'Oops! You have already guessed that letter: ', guessed_word
+            already_guessed_letter(secret_word, letters_guessed)
 
         elif letter in secret_word:
             letters_guessed.append(letter)
-            guessed_word = build_guessed_word(secret_word, letters_guessed)
-            print 'Good Guess: ', guessed_word
+            guessed_letter(secret_word, letters_guessed)
 
         else:
             guesses_left -= 1
             letters_guessed.append(letter)
-            guessed_word = build_guessed_word(secret_word, letters_guessed)
-            print 'Oops! That letter is not in my word: ',  guessed_word
+            wrong_guessed_letter(secret_word, letters_guessed)
 
         print '------------'
 
     else:
-        if is_word_guessed(secret_word, letters_guessed) == True:
-            print 'Congratulations, you won!'
-
-        else:
-            print 'Sorry, you ran out of guesses. The word was ', secret_word, '.'
-        quit()
+        ended_hangman(secret_word, letters_guessed)
 
 def start_hangman():
     secret_word = generate_secret_word()
