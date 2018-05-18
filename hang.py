@@ -92,9 +92,10 @@ def print_hangman_header(secret_word_length, unique_letters_count):
 def read_letter_input(change_word):
     if change_word:
         print 'You are running out of guesses! Insert 0 to change the word.'
-
-    letter = raw_input('Please guess a letter: ')
-    read_letter_input(change_word)
+    try:
+        letter = raw_input('Please guess a letter: ')
+    except:
+        read_letter_input(change_word)
     return letter
 
 def already_guessed_letter(secret_word, letters_guessed):
