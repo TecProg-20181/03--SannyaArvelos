@@ -4,9 +4,13 @@ import string
 WORDLIST_FILENAME = "palavras.txt"
 
 def load_secret_words():
-    in_file = open(WORDLIST_FILENAME, 'r', 0)
-    line = in_file.readline()
-    word_list = string.split(line)
+    try:
+        in_file = open(WORDLIST_FILENAME, 'r', 0)
+        line = in_file.readline()
+        word_list = string.split(line)
+    except IOError:
+        print("Word file not found.")
+        quit()
     return word_list
 
 def sort_secret_word(word_list):
@@ -84,6 +88,7 @@ def print_hangman_header(secret_word_length, unique_letters_count):
 def read_letter_input(change_word):
     if change_word:
         print 'You are running out of guesses! Insert 0 to change the word.'
+
     letter = raw_input('Please guess a letter: ')
     return letter
 
