@@ -14,8 +14,12 @@ def load_secret_words():
     return word_list
 
 def sort_secret_word(word_list):
-    random_word = random.choice(word_list)
-    random_word_lowercase = random_word.lower()
+    try:
+        random_word = random.choice(word_list)
+        random_word_lowercase = random_word.lower()
+    except IndexError:
+        print("Could not find the list of words.")
+        quit()
     return random_word_lowercase
 
 def generate_secret_word():
@@ -90,6 +94,7 @@ def read_letter_input(change_word):
         print 'You are running out of guesses! Insert 0 to change the word.'
 
     letter = raw_input('Please guess a letter: ')
+    read_letter_input(change_word)
     return letter
 
 def already_guessed_letter(secret_word, letters_guessed):
